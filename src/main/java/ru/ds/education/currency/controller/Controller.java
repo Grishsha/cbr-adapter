@@ -4,7 +4,6 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import ru.ds.education.currency.model.CursDataDto;
-import ru.ds.education.currency.model.CursDataEntity;
 import ru.ds.education.currency.service.CursDataService;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
