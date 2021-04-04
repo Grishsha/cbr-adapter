@@ -1,13 +1,19 @@
 package ru.ds.education.currency.model;
 
-import org.springframework.context.annotation.Bean;
+import lombok.*;
+import org.hibernate.annotations.GenericGenerator;
+import org.springframework.stereotype.Component;
+import ru.ds.education.currency.model.CurrencyCode;
 
 import javax.persistence.*;
 import java.util.Date;
 
 @Entity(name = "curs_data")
 @Table(name = "curs_data")
-
+@Getter
+@Setter
+@Builder
+@Component
 public class CursDataEntity {
 
     @Id
@@ -22,44 +28,25 @@ public class CursDataEntity {
     @Temporal(TemporalType.DATE)
     private Date cursDate;
 
-    public CursDataEntity() {
+    public CursDataEntity(){
+
+    }
+
+    public CursDataEntity(CurrencyCode currencyCode, Date cursDate) {
+        this.currencyCode = currencyCode;
+        this.cursDate = cursDate;
     }
 
     public CursDataEntity(CurrencyCode currencyCode, Double curs, Date cursDate) {
-        this.currencyCode = CurrencyCode.valueOf(currencyCode.name());
+        this.currencyCode = currencyCode;
         this.curs = curs;
         this.cursDate = cursDate;
     }
 
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    public CurrencyCode getCurrencyCode() {
-        return currencyCode;
-    }
-
-    public void setCurrencyCode(String currencyCode) {
-        this.currencyCode = CurrencyCode.valueOf(currencyCode);
-    }
-
-    public Double getCurs() {
-        return curs;
-    }
-
-    public void setCurs(Double curs) {
+    public CursDataEntity(Long id, CurrencyCode currencyCode, Double curs, Date cursDate) {
+        this.currencyCode = currencyCode;
         this.curs = curs;
-    }
-
-    public Date getCursDate() {
-        return cursDate;
-    }
-
-    public void setCursDate(Date cursDate) {
         this.cursDate = cursDate;
     }
+
 }

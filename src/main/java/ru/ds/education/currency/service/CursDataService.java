@@ -1,81 +1,53 @@
 package ru.ds.education.currency.service;
 
-import lombok.extern.slf4j.Slf4j;
+import lombok.NoArgsConstructor;
 import org.springframework.beans.factory.annotation.*;
 import org.springframework.stereotype.Service;
 import ru.ds.education.currency.model.CursDataDto;
 import ru.ds.education.currency.model.CursDataEntity;
+import ru.ds.education.currency.mapper.CursMapper;
 import ru.ds.education.currency.repository.CursDataRepository;
-
-import java.util.ArrayList;
 import java.util.List;
 
-@Slf4j
+
 @Service
+@NoArgsConstructor
 public class CursDataService {
 
     @Autowired
     CursDataRepository cursDataRepository;
-
-    public CursDataService() {
-    }
+    @Autowired
+    CursMapper cursMapper;
+    @Autowired
+    CursDataEntity cursDataEntity;
 
     public CursDataDto create(CursDataDto cursDataDto){
-        CursDataEntity cursDataEntity = new CursDataEntity(
-                        cursDataDto.getCurrencyCode(),
-                        cursDataDto.getCurs(),
-                        cursDataDto.getCursDate());
-        cursDataEntity = cursDataRepository.save(cursDataEntity);
-        cursDataDto.setId(cursDataEntity.getId());
-        cursDataDto.setCurrencyCode(cursDataEntity.getCurrencyCode().name());
-        cursDataDto.setCurs(cursDataEntity.getCurs());
-        cursDataDto.setCursDate(cursDataEntity.getCursDate());
+        cursDataEntity = cursMapper.map(cursDataDto, CursDataEntity.class);
+        cursDataRepository.save(cursDataEntity);
 
-        return cursDataDto;
+        return cursMapper.map(cursDataEntity, CursDataDto.class);
     }
 
     public CursDataDto update(CursDataDto cursDataDto){
-        CursDataEntity cursDataEntity = new CursDataEntity();
-        if(cursDataRepository.existsById(cursDataDto.getId())) {
-            cursDataEntity.setId(cursDataDto.getId());
-            cursDataEntity.setCurrencyCode(cursDataDto.getCurrencyCode().name());
-            cursDataEntity.setCurs(cursDataDto.getCurs());
-            cursDataEntity.setCursDate(cursDataDto.getCursDate());
-            cursDataRepository.save(cursDataEntity);
-            cursDataDto.setId(cursDataEntity.getId());
-            cursDataDto.setCurrencyCode(cursDataEntity.getCurrencyCode().name());
-            cursDataDto.setCurs(cursDataEntity.getCurs());
-            cursDataDto.setCursDate(cursDataEntity.getCursDate());
-            return cursDataDto;
-        }
-        return null;
+        cursDataEntity = cursMapper.map(cursDataDto, CursDataEntity.class);
+        cursDataRepository.save(cursDataEntity);
+        cursDataEntity = cursDataRepository.getOne(cursDataEntity.getId());
+        return cursMapper.map(cursDataEntity, CursDataDto.class);
     }
 
     public List<CursDataDto> select(CursDataDto cursDataDto){
-        CursDataEntity cursDataEntity = new CursDataEntity();
-        List<CursDataEntity> cursDataEntityList;
-        List<CursDataDto> cursDataDtoList = new ArrayList<>();
+        cursDataEntity = cursMapper.map(cursDataDto, CursDataEntity.class);
+        List<CursDataEntity> cursDataEntityList= cursDataRepository.findByCurrencyCodeAndCursDate(
+                cursDataEntity.getCurrencyCode(),
+                cursDataEntity.getCursDate());
 
-        cursDataEntity.setCurrencyCode(cursDataDto.getCurrencyCode().name());
-        cursDataEntity.setCursDate(cursDataDto.getCursDate());
-        cursDataEntityList = cursDataRepository.findByCurrencyCodeAndCursDate(
-                                                    cursDataEntity.getCurrencyCode(),
-                                                    cursDataEntity.getCursDate());
-        for (CursDataEntity entity : cursDataEntityList){
-            cursDataDto = new CursDataDto();
-            cursDataDto.setId(entity.getId());
-            cursDataDto.setCurrencyCode(entity.getCurrencyCode().name());
-            cursDataDto.setCurs(entity.getCurs());
-            cursDataDto.setCursDate(entity.getCursDate());
-            cursDataDtoList.add(cursDataDto);
-        }
-        return cursDataDtoList;
+        return cursMapper.mapAsList(cursDataEntityList, CursDataDto.class);
     }
 
     public void delete(CursDataDto cursDataDto){
-        CursDataEntity cursDataEntity = new CursDataEntity();
-        if(cursDataRepository.existsById(cursDataDto.getId())) {
-            cursDataEntity = cursDataRepository.getOne(cursDataDto.getId());
+        cursDataEntity = cursMapper.map(cursDataDto, CursDataEntity.class);
+        if(cursDataRepository.existsById(cursDataEntity.getId())) {
+            cursDataEntity = cursDataRepository.getOne(cursDataEntity.getId());
             cursDataRepository.delete(cursDataEntity);
         }
     }
