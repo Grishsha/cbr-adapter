@@ -48,5 +48,4 @@ public class CursDataEntity {
         this.curs = curs;
         this.cursDate = cursDate;
     }
-
 }

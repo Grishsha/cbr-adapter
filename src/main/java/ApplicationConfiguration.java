@@ -12,10 +12,11 @@ public class ApplicationConfiguration {
     public Docket UserApi() {
 
         return new Docket(DocumentationType.SWAGGER_2)
-                        .select()
-                        .apis(RequestHandlerSelectors.basePackage("ru.ds.education.controller")).build()
-                        .apiInfo(apiInfo())
-                        .useDefaultResponseMessages(false);
+                //.apiInfo(apiInfo())
+                .select()
+                //.apis(RequestHandlerSelectors.basePackage("ru.ds.education.currency.controller"))
+                .build()
+                .useDefaultResponseMessages(false);
     }
     public ApiInfo apiInfo(){
         return new ApiInfoBuilder()
@@ -26,5 +27,4 @@ public class ApplicationConfiguration {
                 .version(getClass().getPackage().getImplementationVersion())
                 .build();
     }
-
 }

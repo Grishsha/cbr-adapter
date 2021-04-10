@@ -2,7 +2,8 @@ plugins {
 	id 'org.springframework.boot' version '2.4.4'
 	id 'io.spring.dependency-management' version '1.0.11.RELEASE'
 	id 'java'
-	id "org.flywaydb.flyway" version "7.7.1"
+	id "org.flywaydb.flyway" version "7.7.2"
+	id "no.nils.wsdl2java" version "0.10"
 }
 
 group = 'ru.ds.education'
@@ -23,6 +24,13 @@ dependencies {
 	runtimeOnly 'org.postgresql:postgresql'
 	compileOnly 'org.projectlombok:lombok'
 	annotationProcessor 'org.projectlombok:lombok'
+
+	compile("org.springframework.boot:spring-boot-starter-activemq")
+	compile("org.apache.activemq:activemq-broker")
+	compile("com.fasterxml.jackson.core:jackson-databind")
+	compile("com.fasterxml.jackson.datatype:jackson-datatype-jsr310")
+	compile("com.fasterxml.jackson.dataformat:jackson-dataformat-xml")
+
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'
 }
 
@@ -36,3 +44,18 @@ flyway {
 test {
 	useJUnitPlatform()
 }
+
+wsdl2java{
+	System.setProperty('javax.xml.accessExternalSchema','all')
+	System.setProperty('javax.xml.accessExternalDTD','all')
+
+	generatedWsdlDir = file("${projectDir}/src/main/resources/wsdl")
+	wsdlsToGenerate = [
+		[
+			'-b', 'http://www.w3.org/2001/XMLSchema.xsd',
+			'http://www.cbr.ru/DailyInfoWebServ/DailyInfo.asmx?WSDL'
+		],
+	]
+	encoding = 'UTF-8'
+}
+compileJava.dependsOn(wsdl2java)
