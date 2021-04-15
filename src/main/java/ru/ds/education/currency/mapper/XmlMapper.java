@@ -5,13 +5,9 @@ import ma.glasnost.orika.converter.builtin.PassThroughConverter;
 import ma.glasnost.orika.impl.ConfigurableMapper;
 import org.springframework.stereotype.Component;
 import ru.cbr.web.GetCursOnDateXMLResponse;
-import ru.ds.education.currency.model.CurrencyCbr;
-import ru.ds.education.currency.model.JsonRequestMessage;
-import ru.ds.education.currency.model.JsonResponseMessage;
-import ru.ds.education.currency.model.XmlResponseMessage;
 
 import java.time.LocalDate;
-
+/*
 @Component
 public class XmlMapper extends ConfigurableMapper {
     @Override
@@ -22,3 +18,4 @@ public class XmlMapper extends ConfigurableMapper {
                 .register();
     }
 }
+*/

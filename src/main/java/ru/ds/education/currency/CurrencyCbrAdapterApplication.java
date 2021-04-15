@@ -3,10 +3,10 @@ package ru.ds.education.currency;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
-import springfox.documentation.swagger2.annotations.EnableSwagger2;
+import org.springframework.jms.annotation.EnableJms;
 
 @SpringBootApplication
-@EnableSwagger2
+@EnableJms
 @EnableAutoConfiguration
 public class CurrencyCbrAdapterApplication {
 
