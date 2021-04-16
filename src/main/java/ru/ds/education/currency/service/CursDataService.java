@@ -3,10 +3,9 @@ package ru.ds.education.currency.service;
 import lombok.NoArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.w3c.dom.Element;
-import org.w3c.dom.NodeList;
 import org.w3c.dom.Node;
+import org.w3c.dom.NodeList;
 import ru.cbr.web.GetCursOnDateXMLResponse;
-import ru.ds.education.currency.controller.CurrencyCbr;
 import ru.ds.education.currency.model.CurrencyCbr;
 
 import java.math.BigDecimal;
@@ -63,7 +62,6 @@ public class CursDataService {
                     break;
             }
         }
-
         return currency.isEmpty() ? Optional.empty() : Optional.of(currency);
     }
 
